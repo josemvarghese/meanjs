@@ -28,6 +28,18 @@ export class TaskService {
                 .map(response=>response.json())
                 .catch(this.handleError)
    }
+   updateTaskStatus(updateTask){
+     var upTask = {
+       _id:updateTask._id,
+       title:updateTask.title,
+       isDone:!updateTask.isDone
+     };
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.put(endpoint+'task/'+updateTask._id,JSON.stringify(upTask),{headers:headers})
+                .map(response=>response.json())
+                .catch(this.handleError)
+   }
 
    private handleError(error:any, caught:any): any{
       console.log(error, caught)

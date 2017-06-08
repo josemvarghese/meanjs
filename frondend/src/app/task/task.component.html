@@ -12,7 +12,7 @@
 <div align="center" class="row well" *ngFor='let tList of taskList; let i=index'> 
 
     <div class="col-md-2 col-md-offset 2">
-      <input type="checkbox" [checked]="tList.isDone"/>
+      <input type="checkbox" [checked]="tList.isDone" (click)='updateStatus(tList)'/>
     </div>  
     <div class="col-md-4">
       {{tList.title}}

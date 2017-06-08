@@ -12,6 +12,7 @@ export class TaskComponent implements OnInit,OnDestroy {
   private request:any;
   private addnewtask:any;
   private deleTask:any;
+  private statusUpdate:any;
   
   taskList:[TaskItem];
   newTask:String;
@@ -28,6 +29,7 @@ export class TaskComponent implements OnInit,OnDestroy {
 
   addTask(event,addTaskForm){
         // console.log(addTaskForm);
+        event.preventDefault();
         console.log(this.newTask);
         let title = this.newTask;
         var taskNew = {
@@ -55,11 +57,22 @@ export class TaskComponent implements OnInit,OnDestroy {
           // this.newTask = '';
         })
   }
+updateStatus(updateTask){
+             console.log(updateTask);
+        this.statusUpdate  = this._task.updateTaskStatus(updateTask).subscribe(data=>{
+          console.log("data");
+          console.log(data);
+          // this.taskList.push(data);
+          // this.newTask = '';
+        });
+  }
+
 
   ngOnDestroy(){
     this.request.unsubscribe();
     this.addnewtask.unsubscribe();
     this.deleTask.unsubscribe();
+    this.statusUpdate.unsubscribe();
     
   }
 
