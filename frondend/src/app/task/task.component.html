@@ -18,7 +18,7 @@
       {{tList.title}}
     </div>  
     <div class="col-md-4">
-      <input type="button" value="Delete" class="btn btn-danger"/>
+      <input type="button" value="Delete" (click)='deleteTask(tList._id,i)' class="btn btn-danger"/>
     </div>  
 
 </div>

@@ -11,6 +11,8 @@ import { TaskService } from '../services/task.service';
 export class TaskComponent implements OnInit,OnDestroy {
   private request:any;
   private addnewtask:any;
+  private deleTask:any;
+  
   taskList:[TaskItem];
   newTask:String;
 
@@ -25,26 +27,40 @@ export class TaskComponent implements OnInit,OnDestroy {
   }
 
   addTask(event,addTaskForm){
-    // console.log(addTaskForm);
-    console.log(this.newTask);
-    let title = this.newTask;
-    var taskNew = {
-      title:this.newTask,
-      isDone:false
-    };
+        // console.log(addTaskForm);
+        console.log(this.newTask);
+        let title = this.newTask;
+        var taskNew = {
+          title:this.newTask,
+          isDone:false
+        };
 
-    this.addnewtask  = this._task.addTask(taskNew).subscribe(data=>{
-      console.log("data");
-      console.log(data);
-      this.taskList.push(data);
-      this.newTask = '';
-    })
-
+        this.addnewtask  = this._task.addTask(taskNew).subscribe(data=>{
+          console.log("data");
+          console.log(data);
+          this.taskList.push(data);
+          this.newTask = '';
+        })
+  }
+  deleteTask(deleTask,index){
+    console.log(deleTask);
+    console.log(index);
+     this.deleTask  = this._task.removeTask(deleTask).subscribe(data=>{
+          console.log("data");
+          console.log(data);
+          if(data.n===1){
+            this.taskList.splice(index,1);
+          }
+          // this.taskList.push(data);
+          // this.newTask = '';
+        })
   }
 
   ngOnDestroy(){
     this.request.unsubscribe();
     this.addnewtask.unsubscribe();
+    this.deleTask.unsubscribe();
+    
   }
 
 

@@ -17,15 +17,17 @@ export class TaskService {
                 .catch(this.handleError)
    }
    addTask(newTask){
-    console.log("newTask");
-    console.log(newTask);
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.http.post(endpoint+'tasks',JSON.stringify(newTask),{headers:headers})
                 .map(response=>response.json())
                 .catch(this.handleError)
    }
-
+   removeTask(taskId){
+      return this.http.delete(endpoint+'task/'+taskId)
+                .map(response=>response.json())
+                .catch(this.handleError)
+   }
 
    private handleError(error:any, caught:any): any{
       console.log(error, caught)
