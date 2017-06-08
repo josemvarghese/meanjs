@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// import { VideoItem } from '../videos/video';
+import { TaskItem } from '../services/taskItem';
 import { TaskService } from '../services/task.service';
 
 @Component({
@@ -9,10 +9,14 @@ import { TaskService } from '../services/task.service';
   providers:[TaskService]
 })
 export class TaskComponent implements OnInit {
-
-  constructor() { }
+  private request:any;
+  constructor(private _task:TaskService) { }
 
   ngOnInit() {
+    console.log("task component");
+    this.request = this._task.listTask().subscribe(data=>{
+      console.log(data);
+    });
   }
 
 }

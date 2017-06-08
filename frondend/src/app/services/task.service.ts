@@ -8,6 +8,17 @@ const endpoint = 'http://localhost:3000/api/';
 @Injectable()
 export class TaskService {
 
-  constructor() { }
+  constructor(private http:Http) {
+    console.log("task service ");
+   }
+   listTask(){
+     return this.http.get(endpoint+'tasks')
+                .map(response=>response.json())
+                .catch(this.handleError)
+   }
+
+   private handleError(error:any, caught:any): any{
+      console.log(error, caught)
+    }
 
 }
