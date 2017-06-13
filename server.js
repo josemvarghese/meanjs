@@ -12,9 +12,9 @@ var app = express();
 
 
 // view engine
-app.set('views',path.join(__dirname,'views'));
-app.set('view engine','ejs');
-app.engine('html',require('ejs').renderFile);
+// app.set('views',path.join(__dirname,'views'));
+// app.set('view engine','ejs');
+// app.engine('html',require('ejs').renderFile);
 
 
 
@@ -31,8 +31,13 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 
 
-app.use('/',index);
+
 app.use('/api',tasks);
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/index.html'));
+});
+
+// app.use('/',index);
 
 app.listen(port, function() {
 	console.log('server running '+port);

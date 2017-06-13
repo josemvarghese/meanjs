@@ -23,7 +23,7 @@ export class TaskComponent implements OnInit,OnDestroy {
     this.request = this._task.listTask().subscribe(data=>{
       console.log(data);
       this.taskList  = data as [TaskItem];
-      // console.log(this.taskList);
+      console.log(this.taskList);
     });
   }
 
