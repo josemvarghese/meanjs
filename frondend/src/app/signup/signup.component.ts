@@ -6,10 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-
+  email:any;
+  psw:any;
+  pswrepeat:any;
   constructor() { }
 
   ngOnInit() {
+  }
+  signUp(event,signupForm){
+
+    console.log(signupForm);
+
   }
 
 }
