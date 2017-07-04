@@ -5,14 +5,16 @@ var dbConfig = require('./config/db.js');
 var mongoose = require('mongoose');
 mongoose.connect(dbConfig.url);
 
-var index = require('./routes/index');
-var tasks = require('./routes/tasks');
+// var index = require('./routes/index');
+// var tasks = require('./routes/tasks');
 var login = require('./routes/login');
 
 
 var port = 3000;
 var app = express();
-
+require('./routes/index')(app);
+require('./routes/tasks')(app);
+// require('./routes/index')(app);
 
 // view engine
 // app.set('views',path.join(__dirname,'views'));
@@ -35,7 +37,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 
 
-app.use('/api',tasks);
+// app.use('/api',tasks);
 app.use('/api',login);
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/index.html'));
