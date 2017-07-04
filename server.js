@@ -1,7 +1,9 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
-
+var dbConfig = require('./config/db.js');
+var mongoose = require('mongoose');
+mongoose.connect(dbConfig.url);
 
 var index = require('./routes/index');
 var tasks = require('./routes/tasks');
