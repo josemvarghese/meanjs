@@ -3,9 +3,23 @@ var router = express.Router();
 var mongojs = require('mongojs');
 // mongo db collection, collections that listed array can use here
  /*  collections are basically tables in mongodb */
-var db = mongojs('mongodb://jose:jose@ds025603.mlab.com:25603/tasks',['tasks']);
-module.exports = function(app){
-		app.get('/api/tasks',function(req,res,next) {
+ var mongoose = require('mongoose');
+mongoose.connect(dbConfig.url);
+var db = mongoose.Model('tasks');
+// mongojs('mongodb://jose:jose@ds025603.mlab.com:25603/tasks',['tasks']);
+
+var isAuthenticated = function (req, res, next) {
+	// if user is authenticated in the session, call the next() to call the next request handler 
+	// Passport adds this method to request object. A middleware is allowed to add properties to
+	// request and response objects
+	if (req.isAuthenticated())
+		return next();
+	// if the user is not authenticated then redirect him to the login page
+	res.redirect('/');
+}
+
+module.exports = function(passport){
+		router.get('/tasks',isAuthenticated,function(req,res,next) {
 				db.tasks.find(function(err,tasks){
 
 					if(err){
@@ -15,7 +29,7 @@ module.exports = function(app){
 
 				})
 		});
-		app.get('/api/task/:id',function(req,res,next) {
+		router.get('/task/:id',isAuthenticated,function(req,res,next) {
 				db.tasks.findOne({_id:mongojs.ObjectId(req.params.id)},function(err,task){
 
 					if(err){
@@ -26,7 +40,7 @@ module.exports = function(app){
 				})
 		});
 
-		app.post('/api/tasks',function(req,res,next) {
+		router.post('/tasks',isAuthenticated,function(req,res,next) {
 				
 			var task = req.body;
 			if(!task.title || !(task.isDone+'')){
@@ -43,7 +57,7 @@ module.exports = function(app){
 
 		});
 
-		app.delete('/api/task/:id',function(req,res,next) {
+		router.delete('/task/:id',isAuthenticated,function(req,res,next) {
 				db.tasks.remove({_id:mongojs.ObjectId(req.params.id)},function(err,task){
 
 					if(err){
@@ -54,7 +68,7 @@ module.exports = function(app){
 				})
 		});
 
-		app.put('/api/task/:id',function(req,res,next) {
+		router.put('/task/:id',isAuthenticated,function(req,res,next) {
 				var task = req.body;
 				var updateTask = {};
 				if(task.isDone){

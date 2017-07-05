@@ -12,8 +12,8 @@ var login = require('./routes/login');
 
 var port = 3000;
 var app = express();
-require('./routes/index')(app);
-require('./routes/tasks')(app);
+// require('./routes/index')(app);
+// require('./routes/tasks')(app);
 // require('./routes/index')(app);
 
 // view engine
@@ -35,9 +35,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
 
+// Configuring Passport
+var passport = require('passport');
+var expressSession = require('express-session');
+// TODO - Why Do we need this key ?
+app.use(expressSession({secret: 'mySecretKey'}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Initialize Passport
+var initPassport = require('./passport/init');
+initPassport(passport);
+// var index = require('./routes/index');
+var tasks = require('./routes/tasks')(passport);
+var login = require('./routes/login')(passport);
 
 
-// app.use('/api',tasks);
+app.use('/api',tasks);
 app.use('/api',login);
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/index.html'));
